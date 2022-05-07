@@ -1,20 +1,5 @@
-import { useState } from "react";
-import { Widget } from "./components/Widget";
+import { Widget } from "./components/Widget"
 
-interface ButtonProps {
-  label?: string;
+export function App() {
+  return <Widget />
 }
-
-function Button({ label }: ButtonProps) {
-  return <button>{label ?? "Default"}</button>;
-}
-
-function App() {
-  return (
-    <>
-      <Widget />
-    </>
-  );
-}
-
-export default App;

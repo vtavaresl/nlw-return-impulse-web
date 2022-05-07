@@ -1,11 +1,11 @@
-import React from "react";
-import { CloseButton } from "../CloseButton";
-import bugImageUrl from "../../assets/bug.svg";
-import ideaImageUrl from "../../assets/idea.svg";
-import thoughtImageUrl from "../../assets/thought.svg";
-import { FeedbackTypeStep } from "./steps/FeedbackTypeStep";
-import { FeedbackContentStep } from "./steps/FeedbackContentStep";
-import { FeedbackSuccessStep } from "./steps/FeedbackSuccessStep";
+import { useState } from "react"
+
+import bugImageUrl from "../../assets/bug.svg"
+import ideaImageUrl from "../../assets/idea.svg"
+import thoughtImageUrl from "../../assets/thought.svg"
+import { FeedbackTypeStep } from "./steps/FeedbackTypeStep"
+import { FeedbackContentStep } from "./steps/FeedbackContentStep"
+import { FeedbackSuccessStep } from "./steps/FeedbackSuccessStep"
 
 export const feedbackTypes = {
   BUG: {
@@ -19,36 +19,35 @@ export const feedbackTypes = {
     title: "Ideia",
     image: {
       source: ideaImageUrl,
-      alt: "Imagem de uma lampada",
+      alt: "Imagem de uma lâmpada",
     },
   },
   OTHER: {
     title: "Outro",
     image: {
       source: thoughtImageUrl,
-      alt: "Imagem de uma nuvem de pensamento",
+      alt: "Imagem de um balão de pensamento",
     },
   },
-};
+}
 
-export type FeedbackType = keyof typeof feedbackTypes;
+export type FeedbackType = keyof typeof feedbackTypes
 
 export function WidgetForm() {
-  const [feedbackType, setFeedbackType] = React.useState<FeedbackType | null>(
-    null
-  );
+  const [feedbackType, setFeedbackType] = useState<FeedbackType | null>(null)
+  const [feedbackSet, setFeedbackSet] = useState(false)
 
-  const [feedbackSent, setFeedbackSent] = React.useState(false);
-
-  function handleFeedbackRestart() {
-    setFeedbackType(null);
-    setFeedbackSent(false);
+  function handleRestartFeedback() {
+    setFeedbackSet(false)
+    setFeedbackType(null)
   }
 
   return (
     <div className="bg-zinc-900 p-4 relative rounded-2xl mb-4 flex flex-col items-center shadow-lg w-[calc(100vw-2rem)] md:w-auto">
-      {feedbackSent ? (
-        <FeedbackSuccessStep onFeedbackRestartRequested={handleFeedbackRestart}/>
+      {feedbackSet ? (
+        <FeedbackSuccessStep
+          onFeedbackRestartRequested={handleRestartFeedback}
+        />
       ) : (
         <>
           {!feedbackType ? (
@@ -56,21 +55,22 @@ export function WidgetForm() {
           ) : (
             <FeedbackContentStep
               feedbackType={feedbackType}
-              onFeedbackRestartRequested={handleFeedbackRestart}
-              onFeedbackSent={() => setFeedbackSent(true)}
+              onFeedbackRestartRequested={handleRestartFeedback}
+              onFeedbackSent={() => setFeedbackSet(true)}
             />
           )}
         </>
       )}
+
       <footer className="text-xs text-neutral-400">
         Feito com ♥ pela{" "}
         <a
           className="underline underline-offset-2"
-          href="https://www.rocketseat.com.br/"
+          href="https://rocketseat.com.br"
         >
           Rocketseat
         </a>
       </footer>
     </div>
-  );
+  )
 }
